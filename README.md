@@ -325,26 +325,23 @@ skill-factory --input '...' --profile
 ## 相关资源
 
 ### 文档
-- [API 参考](./API-reference.md)
-- [开发指南](./development-guide.md)
-- [模板系统说明](./templates/README.md)
+- [API 参考](./docs/API-reference.md)
+- [开发指南](./docs/development-guide.md)
+- [模板系统](./templates/)
 
 ### 示例
-- [基础使用示例](../examples/basic-example.md)
-- [高级功能示例](../examples/advanced-example.md)
-- [自定义模板示例](../examples/custom-template-example.md)
+- [基础使用示例](./examples/basic-example.md)
+- [代码审查助手示例](./examples/code-review-helper/)
 
 ### 工具
-- [技能验证工具](../tools/validator.js)
-- [模板生成工具](../tools/template-generator.js)
-- [测试工具](../tools/test-runner.js)
+- [工具配置](./tools/tools.json)
 
 ## 许可证
-MIT License - 详见 [LICENSE](../LICENSE) 文件
+MIT License - 详见 [LICENSE](./LICENSE) 文件
 
 ## 支持
-- **问题报告**：[GitHub Issues](https://github.com/your-username/skill-factory/issues)
-- **讨论区**：[GitHub Discussions](https://github.com/your-username/skill-factory/discussions)
+- **问题报告**：[GitHub Issues](../../issues)
+- **讨论区**：[GitHub Discussions](../../discussions)
 - **文档更新**：提交文档改进的 Pull Request
 
 ---
