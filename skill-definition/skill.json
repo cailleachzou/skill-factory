@@ -1,0 +1,174 @@
+{
+  "name": "skill-factory",
+  "version": "0.1.0",
+  "description": "一个能够生成其他Claude Code技能的元技能工具，专为教育和学习辅助场景设计。用户可以提供技能描述，本技能将生成完整的技能代码、配置文件和文档。",
+  "author": "Vibe Writing System",
+  "created_date": "2026-01-09",
+
+  "tools": [
+    {
+      "name": "read",
+      "description": "读取文件和文档内容",
+      "permissions": ["files:read"]
+    },
+    {
+      "name": "write",
+      "description": "创建和写入新文件",
+      "permissions": ["files:write"]
+    },
+    {
+      "name": "edit",
+      "description": "编辑现有文件内容",
+      "permissions": ["files:edit"]
+    },
+    {
+      "name": "glob",
+      "description": "搜索和匹配文件模式",
+      "permissions": ["files:search"]
+    },
+    {
+      "name": "webfetch",
+      "description": "获取网络内容和文档",
+      "permissions": ["network:fetch"]
+    },
+    {
+      "name": "websearch",
+      "description": "进行网络搜索获取信息",
+      "permissions": ["network:search"]
+    },
+    {
+      "name": "bash",
+      "description": "执行系统命令和shell操作",
+      "permissions": ["system:execute"]
+    },
+    {
+      "name": "context",
+      "description": "访问和管理对话上下文",
+      "permissions": ["context:read", "context:write"]
+    }
+  ],
+
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "skill_name": {
+        "type": "string",
+        "description": "要创建的技能名称（英文，使用连字符分隔）",
+        "example": "code-review-assistant"
+      },
+      "skill_type": {
+        "type": "string",
+        "description": "技能类型",
+        "enum": ["coordinator", "specialist", "tool-integration", "learning-analytics"],
+        "example": "specialist"
+      },
+      "description": {
+        "type": "string",
+        "description": "技能的详细功能描述",
+        "example": "一个代码审查助手，能够分析代码质量、检测潜在问题、提供改进建议"
+      },
+      "primary_function": {
+        "type": "string",
+        "description": "技能的主要功能",
+        "example": "自动代码审查和优化建议"
+      },
+      "target_users": {
+        "type": "string",
+        "description": "目标用户群体",
+        "example": "开发者、学生、代码学习者"
+      },
+      "tools_needed": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["read", "write", "edit", "glob", "webfetch", "websearch", "bash", "context"]
+        },
+        "description": "技能需要的工具权限",
+        "example": ["read", "edit", "bash"]
+      },
+      "use_cases": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "技能的主要使用场景",
+        "example": ["个人项目代码审查", "学习代码最佳实践", "团队代码质量检查"]
+      },
+      "output_format": {
+        "type": "string",
+        "description": "期望的输出格式",
+        "enum": ["full-package", "minimal", "template-only"],
+        "default": "full-package"
+      }
+    },
+    "required": ["skill_name", "description", "primary_function"]
+  },
+
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "generated_files": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "description": {"type": "string"},
+            "size": {"type": "number"}
+          }
+        },
+        "description": "生成的技能文件列表"
+      },
+      "skill_structure": {
+        "type": "object",
+        "description": "技能文件夹结构"
+      },
+      "skill_definition": {
+        "type": "object",
+        "description": "生成的skill.json内容摘要"
+      },
+      "usage_examples": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "技能使用示例"
+      },
+      "next_steps": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "后续开发建议"
+      }
+    }
+  },
+
+  "examples": [
+    {
+      "input": {
+        "skill_name": "code-review-helper",
+        "skill_type": "specialist",
+        "description": "帮助开发者审查代码质量，检测常见错误，提供改进建议",
+        "primary_function": "自动化代码质量检查",
+        "target_users": "初级到中级开发者",
+        "tools_needed": ["read", "edit", "bash"],
+        "use_cases": ["学习编程", "代码审查练习", "项目质量提升"]
+      },
+      "output": {
+        "generated_files": [
+          {"path": "skill-definition/skill.json", "description": "技能定义文件", "size": 2456},
+          {"path": "tools/code-analysis.js", "description": "代码分析工具实现", "size": 5120},
+          {"path": "examples/basic-review.md", "description": "基础使用示例", "size": 1024}
+        ],
+        "usage_examples": [
+          "使用 code-review-helper 分析当前目录的Python代码",
+          "检查JavaScript文件中的常见错误模式",
+          "生成代码质量报告"
+        ]
+      }
+    }
+  ],
+
+  "categories": ["skill-development", "education", "learning-assistance", "meta-tools"],
+
+  "license": "MIT",
+
+  "documentation_url": "./docs/README.md"
+}

@@ -1,0 +1,292 @@
+{
+  "tools": [
+    {
+      "name": "read",
+      "description": "读取文件内容",
+      "type": "file_operation",
+      "permissions": ["files:read"],
+      "input_schema": {
+        "file_path": {
+          "type": "string",
+          "description": "要读取的文件路径",
+          "required": true
+        },
+        "offset": {
+          "type": "integer",
+          "description": "起始行号（可选）",
+          "required": false,
+          "default": 0
+        },
+        "limit": {
+          "type": "integer",
+          "description": "读取行数限制（可选）",
+          "required": false,
+          "default": 2000
+        }
+      },
+      "output_schema": {
+        "content": {"type": "string", "description": "文件内容"},
+        "line_count": {"type": "integer", "description": "总行数"},
+        "truncated": {"type": "boolean", "description": "内容是否被截断"}
+      },
+      "usage_example": {
+        "command": "read file_path='项目/示例/代码.py' limit=100",
+        "description": "读取代码文件的前100行"
+      }
+    },
+    {
+      "name": "write",
+      "description": "写入或创建新文件",
+      "type": "file_operation",
+      "permissions": ["files:write"],
+      "input_schema": {
+        "file_path": {
+          "type": "string",
+          "description": "要写入的文件路径",
+          "required": true
+        },
+        "content": {
+          "type": "string",
+          "description": "文件内容",
+          "required": true
+        }
+      },
+      "output_schema": {
+        "success": {"type": "boolean", "description": "操作是否成功"},
+        "file_path": {"type": "string", "description": "写入的文件路径"},
+        "size": {"type": "integer", "description": "文件大小（字节）"}
+      },
+      "usage_example": {
+        "command": "write file_path='skill-definition/new-skill.json' content='{\"name\": \"example\"}'",
+        "description": "创建新的技能定义文件"
+      }
+    },
+    {
+      "name": "edit",
+      "description": "编辑现有文件",
+      "type": "file_operation",
+      "permissions": ["files:edit"],
+      "input_schema": {
+        "file_path": {
+          "type": "string",
+          "description": "要编辑的文件路径",
+          "required": true
+        },
+        "old_string": {
+          "type": "string",
+          "description": "要替换的文本",
+          "required": true
+        },
+        "new_string": {
+          "type": "string",
+          "description": "替换后的文本",
+          "required": true
+        },
+        "replace_all": {
+          "type": "boolean",
+          "description": "是否替换所有匹配项",
+          "required": false,
+          "default": false
+        }
+      },
+      "output_schema": {
+        "success": {"type": "boolean", "description": "编辑是否成功"},
+        "changes": {"type": "integer", "description": "修改的数量"},
+        "file_path": {"type": "string", "description": "编辑的文件路径"}
+      },
+      "usage_example": {
+        "command": "edit file_path='skill.json' old_string='0.1.0' new_string='0.1.1'",
+        "description": "更新技能版本号"
+      }
+    },
+    {
+      "name": "glob",
+      "description": "搜索匹配文件模式",
+      "type": "file_operation",
+      "permissions": ["files:search"],
+      "input_schema": {
+        "pattern": {
+          "type": "string",
+          "description": "文件匹配模式（如 **/*.js）",
+          "required": true
+        },
+        "path": {
+          "type": "string",
+          "description": "搜索路径（可选）",
+          "required": false
+        }
+      },
+      "output_schema": {
+        "files": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "匹配的文件路径列表"
+        },
+        "count": {"type": "integer", "description": "匹配文件数量"}
+      },
+      "usage_example": {
+        "command": "glob pattern='**/*.md'",
+        "description": "查找所有Markdown文件"
+      }
+    },
+    {
+      "name": "webfetch",
+      "description": "获取网页内容",
+      "type": "network",
+      "permissions": ["network:fetch"],
+      "input_schema": {
+        "url": {
+          "type": "string",
+          "description": "要获取的URL",
+          "required": true
+        },
+        "prompt": {
+          "type": "string",
+          "description": "处理内容的提示词",
+          "required": true
+        }
+      },
+      "output_schema": {
+        "content": {"type": "string", "description": "获取并处理后的内容"},
+        "source_url": {"type": "string", "description": "源URL"},
+        "processed": {"type": "boolean", "description": "是否已处理"}
+      },
+      "usage_example": {
+        "command": "webfetch url='https://example.com/docs' prompt='提取API文档的关键信息'",
+        "description": "获取并处理API文档"
+      }
+    },
+    {
+      "name": "websearch",
+      "description": "进行网络搜索",
+      "type": "network",
+      "permissions": ["network:search"],
+      "input_schema": {
+        "query": {
+          "type": "string",
+          "description": "搜索查询",
+          "required": true
+        },
+        "allowed_domains": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "允许的域名（可选）",
+          "required": false
+        },
+        "blocked_domains": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "屏蔽的域名（可选）",
+          "required": false
+        }
+      },
+      "output_schema": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "url": {"type": "string"},
+              "snippet": {"type": "string"}
+            }
+          },
+          "description": "搜索结果"
+        },
+        "query": {"type": "string", "description": "搜索查询"},
+        "result_count": {"type": "integer", "description": "结果数量"}
+      },
+      "usage_example": {
+        "command": "websearch query='Claude Code skill development'",
+        "description": "搜索Claude Code技能开发相关信息"
+      }
+    },
+    {
+      "name": "bash",
+      "description": "执行系统命令",
+      "type": "system",
+      "permissions": ["system:execute"],
+      "input_schema": {
+        "command": {
+          "type": "string",
+          "description": "要执行的命令",
+          "required": true
+        },
+        "timeout": {
+          "type": "integer",
+          "description": "超时时间（毫秒，可选）",
+          "required": false,
+          "default": 120000
+        },
+        "run_in_background": {
+          "type": "boolean",
+          "description": "是否在后台运行",
+          "required": false,
+          "default": false
+        }
+      },
+      "output_schema": {
+        "stdout": {"type": "string", "description": "标准输出"},
+        "stderr": {"type": "string", "description": "标准错误"},
+        "exit_code": {"type": "integer", "description": "退出代码"},
+        "success": {"type": "boolean", "description": "是否成功执行"}
+      },
+      "usage_example": {
+        "command": "bash command='ls -la'",
+        "description": "列出目录内容"
+      }
+    },
+    {
+      "name": "context",
+      "description": "访问和管理对话上下文",
+      "type": "context",
+      "permissions": ["context:read", "context:write"],
+      "input_schema": {
+        "operation": {
+          "type": "string",
+          "description": "操作类型",
+          "enum": ["get", "set", "update", "clear"],
+          "required": true
+        },
+        "key": {
+          "type": "string",
+          "description": "上下文键名（对于get/set/update操作）",
+          "required": false
+        },
+        "value": {
+          "type": "any",
+          "description": "要设置的值（对于set/update操作）",
+          "required": false
+        },
+        "namespace": {
+          "type": "string",
+          "description": "命名空间（可选）",
+          "required": false,
+          "default": "default"
+        }
+      },
+      "output_schema": {
+        "success": {"type": "boolean", "description": "操作是否成功"},
+        "value": {"type": "any", "description": "获取的值（对于get操作）"},
+        "namespace": {"type": "string", "description": "使用的命名空间"}
+      },
+      "usage_example": {
+        "command": "context operation='set' key='current_project' value='skill-factory'",
+        "description": "设置当前项目上下文"
+      }
+    }
+  ],
+
+  "tool_groups": {
+    "file_operations": ["read", "write", "edit", "glob"],
+    "network_operations": ["webfetch", "websearch"],
+    "system_operations": ["bash"],
+    "context_operations": ["context"]
+  },
+
+  "default_permissions": {
+    "skill_development": ["read", "write", "edit", "glob", "bash"],
+    "web_research": ["webfetch", "websearch"],
+    "context_management": ["context"]
+  }
+}

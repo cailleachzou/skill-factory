@@ -1,0 +1,33 @@
+{
+  "name": "skill-factory",
+  "version": "1.0.0",
+  "description": "生成其他Claude Code Skills的元技能工厂",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:e2e": "jest --testPathPattern=e2e",
+    "test:performance": "jest --testPathPattern=performance",
+    "test:coverage": "jest --coverage",
+    "test:security": "jest --testNamePattern=security",
+    "test:regression": "jest --testNamePattern=regression",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "claude",
+    "skill",
+    "code",
+    "meta-skill",
+    "generator"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "eslint": "^8.40.0",
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {}
+}

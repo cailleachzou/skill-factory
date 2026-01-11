@@ -1,0 +1,117 @@
+{
+  "name": "coordinator-template",
+  "description": "协调器技能模板，用于创建管理多个子技能的元技能",
+  "version": "1.0.0",
+  "author": "Skill Factory",
+  "skill_type": "coordinator",
+  "category": "meta-skill",
+
+  "variables": {
+    "required": ["skill_name", "description", "primary_function"],
+    "optional": ["sub_skills", "workflow_steps", "state_variables"]
+  },
+
+  "defaults": {
+    "tools_needed": ["read", "write", "context"],
+    "output_format": "full-package",
+    "license": "MIT"
+  },
+
+  "files": [
+    {
+      "source": "skill-definition/skill.json.tpl",
+      "target": "skill-definition/skill.json",
+      "description": "技能定义文件",
+      "required": true
+    },
+    {
+      "source": "tools/tools.json.tpl",
+      "target": "tools/tools.json",
+      "description": "工具配置文件",
+      "required": true
+    },
+    {
+      "source": "implementation/coordinator.js.tpl",
+      "target": "implementation/coordinator.js",
+      "description": "协调器实现代码",
+      "required": true
+    },
+    {
+      "source": "examples/workflow-example.md.tpl",
+      "target": "examples/workflow-example.md",
+      "description": "工作流示例",
+      "required": false
+    },
+    {
+      "source": "tests/coordinator-tests.js.tpl",
+      "target": "tests/coordinator-tests.js",
+      "description": "协调器测试",
+      "required": false
+    }
+  ],
+
+  "dependencies": {
+    "required": [],
+    "recommended": ["state-management", "workflow-engine"]
+  },
+
+  "hooks": {
+    "pre_generate": "hooks/pre-generate.js",
+    "post_generate": "hooks/post-generate.js"
+  },
+
+  "validation": {
+    "rules": [
+      {
+        "field": "tools_needed",
+        "condition": "must_include",
+        "value": ["context"],
+        "message": "协调器技能必须包含 context 工具"
+      },
+      {
+        "field": "primary_function",
+        "condition": "contains",
+        "value": ["协调", "管理", "工作流"],
+        "message": "协调器功能描述应包含协调、管理或工作流相关词汇"
+      }
+    ]
+  },
+
+  "examples": [
+    {
+      "name": "Vibe Writing 协调器",
+      "input": {
+        "skill_name": "vibe-writing-coordinator",
+        "description": "Vibe Writing 系统协调器，管理学习、结构、写作、成稿四个Agent",
+        "primary_function": "工作流协调和状态管理",
+        "tools_needed": ["read", "write", "edit", "glob", "context"],
+        "sub_skills": ["学习Agent", "结构Agent", "写作Agent", "成稿Agent"]
+      }
+    },
+    {
+      "name": "工作流引擎",
+      "input": {
+        "skill_name": "workflow-engine",
+        "description": "通用工作流引擎，支持任务编排、状态跟踪、错误处理",
+        "primary_function": "工作流执行和监控",
+        "tools_needed": ["read", "write", "context", "bash"],
+        "workflow_steps": ["初始化", "执行", "验证", "清理"]
+      }
+    }
+  ],
+
+  "documentation": {
+    "overview": "协调器模板适用于需要管理多个子技能或复杂工作流的场景",
+    "best_practices": [
+      "保持状态管理简洁",
+      "实现错误恢复机制",
+      "提供工作流可视化",
+      "支持子技能动态注册"
+    ],
+    "limitations": [
+      "可能增加系统复杂性",
+      "需要仔细设计状态同步",
+      "调试可能更复杂"
+    ]
+  }
+}

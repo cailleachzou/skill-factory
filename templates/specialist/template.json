@@ -1,0 +1,154 @@
+{
+  "name": "specialist-template",
+  "description": "专业工具技能模板，用于创建特定领域的专业工具技能",
+  "version": "1.0.0",
+  "author": "Skill Factory",
+  "skill_type": "specialist",
+  "category": "tool",
+
+  "variables": {
+    "required": ["skill_name", "description", "primary_function"],
+    "optional": ["domain", "expertise_level", "target_audience"]
+  },
+
+  "defaults": {
+    "tools_needed": ["read", "write"],
+    "output_format": "full-package",
+    "license": "MIT"
+  },
+
+  "files": [
+    {
+      "source": "skill-definition/skill.json.tpl",
+      "target": "skill-definition/skill.json",
+      "description": "技能定义文件",
+      "required": true
+    },
+    {
+      "source": "tools/specialist-tools.json.tpl",
+      "target": "tools/tools.json",
+      "description": "专业工具配置",
+      "required": true
+    },
+    {
+      "source": "implementation/specialist.js.tpl",
+      "target": "implementation/specialist.js",
+      "description": "专业工具实现",
+      "required": true
+    },
+    {
+      "source": "examples/domain-example.md.tpl",
+      "target": "examples/domain-example.md",
+      "description": "领域示例",
+      "required": false
+    },
+    {
+      "source": "tests/specialist-tests.js.tpl",
+      "target": "tests/specialist-tests.js",
+      "description": "专业工具测试",
+      "required": false
+    }
+  ],
+
+  "dependencies": {
+    "required": [],
+    "recommended": ["domain-knowledge-base", "validation-library"]
+  },
+
+  "domain_categories": [
+    "code-analysis",
+    "document-processing",
+    "data-transformation",
+    "quality-assurance",
+    "performance-optimization",
+    "security-scanning"
+  ],
+
+  "validation": {
+    "rules": [
+      {
+        "field": "primary_function",
+        "condition": "specific",
+        "message": "专业工具应有明确具体的功能描述"
+      },
+      {
+        "field": "domain",
+        "condition": "recommended",
+        "message": "建议指定专业领域以优化模板选择"
+      }
+    ]
+  },
+
+  "examples": [
+    {
+      "name": "代码审查助手",
+      "input": {
+        "skill_name": "code-review-helper",
+        "description": "自动化代码审查工具，检测代码质量问题并提供改进建议",
+        "primary_function": "代码质量分析和优化建议",
+        "domain": "code-analysis",
+        "expertise_level": "intermediate",
+        "tools_needed": ["read", "edit", "bash"]
+      }
+    },
+    {
+      "name": "文档格式化器",
+      "input": {
+        "skill_name": "document-formatter",
+        "description": "自动格式化文档，确保一致的格式和样式",
+        "primary_function": "文档格式标准化",
+        "domain": "document-processing",
+        "tools_needed": ["read", "write", "edit"]
+      }
+    },
+    {
+      "name": "数据验证器",
+      "input": {
+        "skill_name": "data-validator",
+        "description": "验证数据格式、完整性和一致性",
+        "primary_function": "数据质量验证",
+        "domain": "data-transformation",
+        "tools_needed": ["read", "context"]
+      }
+    }
+  ],
+
+  "best_practices": {
+    "design": [
+      "专注于单一专业领域",
+      "提供明确的输入输出规范",
+      "实现可配置的规则和参数",
+      "包含详细的错误信息和修复建议"
+    ],
+    "implementation": [
+      "使用领域特定语言(DSL)进行配置",
+      "实现可扩展的规则引擎",
+      "提供性能优化选项",
+      "包含详细日志和调试信息"
+    ],
+    "testing": [
+      "覆盖典型使用场景",
+      "测试边界条件和错误情况",
+      "验证输出质量和准确性",
+      "性能基准测试"
+    ]
+  },
+
+  "performance_considerations": {
+    "memory": "专业工具可能处理大量数据，需注意内存管理",
+    "processing": "复杂分析可能需要优化算法",
+    "caching": "考虑实现结果缓存以提高性能",
+    "scalability": "设计支持批量处理和并行执行"
+  },
+
+  "documentation": {
+    "overview": "专业工具模板适用于创建特定领域的高质量工具",
+    "domain_specific": "可根据不同领域定制模板变量和验证规则",
+    "quality_metrics": [
+      "准确性（准确识别问题）",
+      "覆盖率（覆盖常见场景）",
+      "性能（处理速度）",
+      "可用性（易于使用和配置）"
+    ]
+  }
+}
